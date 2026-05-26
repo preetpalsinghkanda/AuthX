@@ -10,11 +10,23 @@
 
 <body>
 
-    <div class="w-full h-screen bg-[black] flex justify-center text-center text-white px-10 py-20">
+    <div class="w-full h-screen bg-[black] flex  flex-col item-center text-center text-white px-10 py-20">
         <h1 class="text-2xl my-4">About me</h1>
 
-        
-        
+        hey <%= user.name %>
+
+            <div class="my-6 flex-col flex text-2xl">
+                <span>Name : <%= user.name %> </span>
+                <span> Email : <%= user.email %></span>
+
+
+                <form method="post" action="/logout" class=" my-4">
+                    <button class="bg-red-600 w-fit self-center rounded-lg px-4 py-1">Logout</button>
+                </form>
+            </div>
+
+
+
     </div>
 
 </body>

@@ -103,7 +103,7 @@ app.post("/signup", async function (req, res) {
             })
 
 
-            let token = jwt.sign({ email: email, userid: createdUser._id, isAdmin: createdUser.isAdmin }, "newkey");
+            let token = jwt.sign({ name: createdUser.name, email: email, userid: createdUser._id, isAdmin: createdUser.isAdmin }, "newkey");
             res.cookie("token", token);
 
             res.send(`Signup Completed ${name} `)
@@ -146,6 +146,7 @@ app.post("/login", async function (req, res) {
         bcrypt.compare(password, alreadyUser.password, function (err, result) {
             if (result) {
                 let token = jwt.sign({
+                    name: alreadyUser.name,
                     email: alreadyUser.email,
                     userid: alreadyUser._id,
                     isAdmin: alreadyUser.isAdmin,
@@ -260,6 +261,14 @@ function isUserLoggedIn(req, res, next) {
 
 app.get("/aboutme", isUserLoggedIn, (req, res) => {
     res.render('about', { user: req.user })
+
+})
+
+
+
+app.post("/logout", async (req, res) => {
+    await res.clearCookie("token");
+    res.redirect("/login");
 })
 
 
