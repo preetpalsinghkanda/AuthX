@@ -1,5 +1,5 @@
 const express = require("express")
-
+require("dotenv").config();
 const app = express();
 
 const userModel = require("./models/user");
@@ -25,7 +25,7 @@ function IsAdminLogin(req, res, next) {
         return res.send("Please Login buddy :) ----  /login")
     }
 
-    const admin = jwt.verify(token, "newkey");
+    const admin = jwt.verify(token, process.env.JWT_SECRET);
 
     if (admin.isAdmin) {
         next();
@@ -103,7 +103,7 @@ app.post("/signup", async function (req, res) {
             })
 
 
-            let token = jwt.sign({ name: createdUser.name, email: email, userid: createdUser._id, isAdmin: createdUser.isAdmin }, "newkey");
+            let token = jwt.sign({ name: createdUser.name, email: email, userid: createdUser._id, isAdmin: createdUser.isAdmin }, process.env.JWT_SECRET);
             res.cookie("token", token);
 
             res.send(`Signup Completed ${name} `)
@@ -151,7 +151,7 @@ app.post("/login", async function (req, res) {
                     userid: alreadyUser._id,
                     isAdmin: alreadyUser.isAdmin,
 
-                }, "newkey");
+                }, process.env.JWT_SECRET);
                 res.cookie("token", token)
 
 
@@ -243,7 +243,7 @@ function isUserLoggedIn(req, res, next) {
 
     try {
 
-        const loggedInUser = jwt.verify(token, "newkey")
+        const loggedInUser = jwt.verify(token, process.env.JWT_SECRET)
         req.user = loggedInUser
 
         next();
