@@ -45,9 +45,20 @@ function IsAdminLogin(req, res, next) {
 
 async function createAdmin() {
 
+    const alreadyAdmin = await userModel.findOne(
+        {
+            email: "admin@gmail.com"
+        }
+    )
+
+    if (alreadyAdmin) {
+        return
+    }
+
+
     const adminHash = await bcrypt.hash("admin@1234", 10)
 
-    userModel.create({
+    await userModel.create({
         name: "admin",
         email: "admin@gmail.com",
         password: adminHash,
@@ -89,6 +100,7 @@ app.post("/signup", async function (req, res) {
     }
 
 
+
     bcrypt.genSalt(10, function (err, salt) {
         bcrypt.hash(password, salt, async function (err, hash) {
             let createdUser = await userModel.create({
@@ -120,46 +132,59 @@ app.get('/login', function (req, res) {
 
 app.post("/login", async function (req, res) {
 
-    let { email, password } = req.body;
 
-    let alreadyUser = await userModel.findOne({ email })
+    try {
+        let { email, password } = req.body;
 
-    if (!alreadyUser) return res.status(400).send("User not Found --- /signup")
 
-    if (!email || !password) {
-        return res.status(400).send({
-            message: "all inputs are mandatory"
-        });
+
+        if (!email || !password) {
+            return res.status(400).send({
+                message: "all inputs are mandatory"
+            });
+        }
+
+        let alreadyUser = await userModel.findOne({ email })
+
+        if (!alreadyUser) return res.status(400).send("User not Found --- /signup")
+
+
+
+
+        bcrypt.compare(password, alreadyUser.password, function (err, result) {
+            if (result) {
+                let token = jwt.sign({
+                    email: alreadyUser.email,
+                    userid: alreadyUser._id,
+                    isAdmin: alreadyUser.isAdmin,
+
+                }, "newkey");
+                res.cookie("token", token)
+
+
+
+                res.status(200).send(
+                    `Successfully Logged In as ${alreadyUser.name}`
+                );
+
+            }
+
+            else {
+
+                res.send("Invalid Credentials")
+
+            }
+
+        })
+
+
+    } catch (err) {
+
+        res.status(500).send("something went wrong");
+
     }
 
 
-    bcrypt.compare(password, alreadyUser.password, function (err, result) {
-        if (result) {
-            let token = jwt.sign({
-                email: alreadyUser.email,
-                userid: alreadyUser._id,
-                isAdmin: alreadyUser.isAdmin,
-
-            }, "newkey");
-            res.cookie("token", token)
-
-
-
-            res.status(200).send(
-                `Successfully Logged In as ${alreadyUser.name}`
-            );
-
-        }
-
-
-
-        else {
-            res.redirect("/login")
-            res.send("Invalid Credentials")
-
-        }
-
-    })
 
 
 
@@ -179,6 +204,14 @@ app.get("/users", IsAdminLogin, async (req, res) => {
 
 
 
+
+app.post("/delete/:id", async (req, res) => {
+
+    let userId = req.params.id
+    await userModel.deleteOne({ _id: userId })
+    res.redirect("/users")
+
+})
 
 
 

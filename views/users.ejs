@@ -18,13 +18,15 @@
 
                 <% allusers.forEach(user=>{ %>
 
+                    
                     <li>
                         <div class="flex flex-col border px-2 py-2 rounded-md"><span>name : <%= user.name %></span>
                             <span>Email : <%= user.email %></span>
                             <span>isAdmin : <%= user.isAdmin %></span>
-                            <div class="flex gap-4 "><a href="/edit/<%= user._id %>"
-                                    class="text-zinc-400 cursor-pointer ">Edit User</a>
-                                <a href="/delete/<%= user._id %>" class="text-red-500 cursor-pointer">Delete User</a>
+                            <div class="flex gap-4 ">
+                                <form method="post" action="/edit/<%= user._id%>"> <button class="text-zinc-500 cursor-pointer">Edit User</button></form>
+                                    <form method="post" action="/delete/<%= user._id%>"> <button class="text-red-500 cursor-pointer">Delete User</button></form>
+                                  
                             </div>
                         </div>
 
