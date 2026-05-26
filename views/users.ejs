@@ -24,7 +24,7 @@
                             <span>Email : <%= user.email %></span>
                             <span>isAdmin : <%= user.isAdmin %></span>
                             <div class="flex gap-4 ">
-                                <form method="post" action="/edit/<%= user._id%>"> <button class="text-zinc-500 cursor-pointer">Edit User</button></form>
+                                <form method="get" action="/edit/<%= user._id%>"> <button class="text-zinc-500 cursor-pointer">Edit User</button></form>
                                     <form method="post" action="/delete/<%= user._id%>"> <button class="text-red-500 cursor-pointer">Delete User</button></form>
                                   
                             </div>

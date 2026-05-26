@@ -35,14 +35,6 @@ function IsAdminLogin(req, res, next) {
 
 }
 
-
-
-
-
-
-
-
-
 async function createAdmin() {
 
     const alreadyAdmin = await userModel.findOne(
@@ -214,8 +206,30 @@ app.post("/delete/:id", async (req, res) => {
 })
 
 
+app.get("/edit/:id", async (req, res) => {
+
+    let updateId = req.params.id
+
+    let updateUser = await userModel.findOne({
+        _id: updateId
+    });
+
+    res.render("edit", { updateUser })
+
+})
 
 
+app.post("/edit/:id", async (req, res) => {
+
+
+    let updateId = req.params.id
+
+    await userModel.findOneAndUpdate({ _id: updateId }, { name: req.body.name, email: req.body.email })
+
+    res.redirect('/users')
+
+
+})
 
 
 app.listen(5000)

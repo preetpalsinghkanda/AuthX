@@ -11,8 +11,30 @@
 <body>
 
     <div class="w-full h-screen bg-[black] text-white px-10 py-20">
-        <h1 class="text-2xl my-4">Edit Users</h1>
-        
+        <h1 class="text-2xl my-4">Edit User</h1>
+
+            
+
+                 <form action="/edit/<%=updateUser._id %>" method="post" class="flex gap-4">
+
+
+
+            <input type="text" value=<%=updateUser.name %> name="name" placeholder="Enter a Name"
+                class="  rounded-md px-3 py-2 border border-[#262C36] outline-none ">
+
+
+            <input type="text" value=<%=updateUser.email %>  name="email" placeholder="Enter Your Email"
+                class="  rounded-md px-3 py-2 border border-[#262C36] outline-none ">
+          
+
+            <input value="Save" type="submit"
+                class="cursor-pointer bg-blue-500  mx-6 rounded-md px-3 py-2  outline-zinc-200 outline">
+
+        </form>
+         
+
+       
+
     </div>
 
 </body>
