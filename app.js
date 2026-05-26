@@ -7,6 +7,7 @@ const cookieParser = require("cookie-parser");
 
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const user = require("./models/user");
 
 app.set("view engine", "ejs")
 app.use(cookieParser());
@@ -101,6 +102,13 @@ app.post("/login", async function (req, res) {
 
 })
 
+app.get("/admin" ,async (req, res)=>{
+
+    const allusers = await user.find()
+
+        res.render("users" , {allusers})
+
+})
 
 
 
