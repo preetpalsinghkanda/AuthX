@@ -231,5 +231,40 @@ app.post("/edit/:id", async (req, res) => {
 
 })
 
+function isUserLoggedIn(req, res, next) {
+
+    const token = req.cookies.token
+
+    if (!token) {
+        return res.send("Signup or Login first !")
+
+    }
+
+    try {
+
+        const loggedInUser = jwt.verify(token, "newkey")
+        req.user = loggedInUser
+
+        next();
+
+    } catch (err) {
+
+        res.send("session expired or invalid");
+
+    }
+
+
+}
+
+
+
+app.get("/aboutme", isUserLoggedIn, (req, res) => {
+    res.render('about', { user: req.user })
+})
+
+
+
+
+
 
 app.listen(5000)

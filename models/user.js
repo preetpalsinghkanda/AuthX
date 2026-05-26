@@ -10,7 +10,7 @@ const userSchema = mongoose.Schema({
     password: String,
     isAdmin: {
     type: Boolean
-}
+    }
 
 })
 
