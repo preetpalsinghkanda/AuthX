@@ -22,7 +22,7 @@ function IsAdminLogin(req, res, next) {
     const token = req.cookies.token;
 
     if (!token) {
-        return res.send("Please Login buddy :) ----  /login")
+        return res.render("error" ,{err : "Please Login buddy as a Admin :)"})
     }
 
     const admin = jwt.verify(token, process.env.JWT_SECRET);
@@ -30,7 +30,7 @@ function IsAdminLogin(req, res, next) {
     if (admin.isAdmin) {
         next();
     } else {
-        return res.send("your account does not have 'ADMIN' access!")
+        return res.render("error" ,{err:"your account does not have 'ADMIN' access!"})
     }
 
 }
@@ -39,7 +39,7 @@ async function createAdmin() {
 
     const alreadyAdmin = await userModel.findOne(
         {
-            email: "admin@gmail.com"
+            email: "macondo@gmail.com"
         }
     )
 
@@ -48,11 +48,11 @@ async function createAdmin() {
     }
 
 
-    const adminHash = await bcrypt.hash("admin@1234", 10)
+    const adminHash = await bcrypt.hash("macondo1234", 10)
 
     await userModel.create({
-        name: "admin",
-        email: "admin@gmail.com",
+        name: "Admin",
+        email: "macondo@gmail.com",
         password: adminHash,
         isAdmin: true,
     })
@@ -83,11 +83,11 @@ app.post("/signup", async function (req, res) {
 
     let alreadyUser = await userModel.findOne({ email })
 
-    if (alreadyUser) return res.status(400).send("User already in DB")
+    if (alreadyUser) return res.status(400).render("error", { err: "User already in DB" })
 
     if (!name || !email || !password) {
-        return res.status(400).send({
-            message: "all inputs are mandatory"
+        return res.status(400).render("error", {
+            err: "all inputs are mandatory"
         });
     }
 
@@ -106,7 +106,7 @@ app.post("/signup", async function (req, res) {
             let token = jwt.sign({ name: createdUser.name, email: email, userid: createdUser._id, isAdmin: createdUser.isAdmin }, process.env.JWT_SECRET);
             res.cookie("token", token);
 
-            res.send(`Signup Completed ${name} `)
+            res.render("success", { success: `Signup Completed ${name} ` })
 
         });
     });
@@ -138,7 +138,7 @@ app.post("/login", async function (req, res) {
 
         let alreadyUser = await userModel.findOne({ email })
 
-        if (!alreadyUser) return res.status(400).send("User not Found --- /signup")
+        if (!alreadyUser) return res.status(400).render("error" ,{err : "User not Found Go and signup now -- /signup"})
 
 
 
@@ -156,15 +156,16 @@ app.post("/login", async function (req, res) {
 
 
 
-                res.status(200).send(
-                    `Successfully Logged In as ${alreadyUser.name}`
+                res.status(200).render("success", {
+                    success: `Successfully Logged In as ${alreadyUser.name}`
+                }
                 );
 
             }
 
             else {
 
-                res.send("Invalid Credentials")
+                res.render("error" ,{err :"Invalid Credentials"})
 
             }
 
@@ -237,7 +238,7 @@ function isUserLoggedIn(req, res, next) {
     const token = req.cookies.token
 
     if (!token) {
-        return res.send("Signup or Login first !")
+        return res.render("error", { err: "Please Login or Signup First !" })
 
     }
 

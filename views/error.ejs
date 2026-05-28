@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>AuthX</title>
+</head>
+
+<body>
+
+    <div class="w-full h-screen bg-[black] text-white px-10 py-20  flex flex-col">
+        <h1 class="text-4xl my-4">Error : Something Went Wrong</h1>
+        <hr>
+        <div class="flex flex-col w-fit gap-4 text-3xl my-4">
+           <%= err %>
+        </div>
+
+        <div class="my-4 flex gap-10">
+             <a href="/" class=" px-4 py-1 rounded-lg bg-blue-400 text-xl font-bold text-black">Home</a>
+            <a href="/login" class=" px-4 py-1 rounded-lg bg-blue-400 text-xl font-bold text-black">Login</a>
+            <a href="/signup" class="px-4 py-1 rounded-lg bg-blue-400 text-xl font-bold text-black">Signup</a>
+        </div>
+    </div>
+
+</body>
+
+</html>

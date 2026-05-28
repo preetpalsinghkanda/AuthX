@@ -11,9 +11,12 @@
 <body>
 
     <div class="w-full h-screen bg-[black] flex  flex-col item-center text-center text-white px-10 py-20">
-        <h1 class="text-2xl my-4">About me</h1>
+        
+        <div class="rounded-lg bg-[#181818] w-fit mx-auto  px-6 py-8">
+        <h1 class="text-4xl my-4">About me</h1> 
+        <hr class="my-4">
 
-        hey <%= user.name %>
+        hey,  <%= user.name %>
 
             <div class="my-6 flex-col flex text-2xl">
                 <span>Name : <%= user.name %> </span>
@@ -21,11 +24,12 @@
 
 
                 <form method="post" action="/logout" class=" my-4">
-                    <button class="bg-red-600 w-fit self-center rounded-lg px-4 py-1">Logout</button>
+                    <button class="bg-red-600 w-fit self-center rounded-lg px-6 py-1">Logout</button>
                 </form>
+                <a href="/" class=" py-2 w-fit mx-auto px-7 rounded-lg bg-blue-400 text-black font-bold">Home</a>
             </div>
 
-
+</div>
 
     </div>
 
