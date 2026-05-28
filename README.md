@@ -14,8 +14,8 @@ It provides secure user authentication, admin authorization, protected route, an
 
 ## Demo Admin Access credentials
 
-* *Email: admin@gmail.com*
-* *Password: admin@1234*
+* *Email*: macondo@gmail.com
+* *Password*: macondo1234
 
 ---
 
