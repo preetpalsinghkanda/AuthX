@@ -7,7 +7,7 @@ It provides secure user authentication, admin authorization, protected route, an
 
 ## Deploy Link 
 
-*https://authx-production-8c8d.up.railway.app/*
+*https://auth-x-kappa.vercel.app/*
 
 
 ---
