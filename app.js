@@ -214,7 +214,7 @@ app.get("/edit/:id", async (req, res) => {
 
     try {
         const updateUser = await userModel.findById(updateId)
-        res.render("edit", { updateUser })
+        res.render("editpage", { updateUser })
     } catch (err) {
         res.send(err.message)
     }
