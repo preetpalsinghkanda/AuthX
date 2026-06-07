@@ -8,7 +8,7 @@ the app includes user authentication, admin control, protected page, and a compl
 
 ## Deploy Link 
 
-*https://authx-zt8z.onrender.com*
+*https://auth-x-kappa.vercel.app/*
 
 
 ---
@@ -61,6 +61,6 @@ On the other hand a normal user can't perform these actions, They can only signu
 
 ---
 
-Deployed on Render
+Deployed on vercel
 
 ---
