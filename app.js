@@ -4,7 +4,7 @@ const app = express();
 
 const userModel = require("./models/user");
 const cookieParser = require("cookie-parser");
-
+const mongoose = require('mongoose')
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const user = require("./models/user");
@@ -22,7 +22,7 @@ function IsAdminLogin(req, res, next) {
     const token = req.cookies.token;
 
     if (!token) {
-        return res.render("error" ,{err : "Please Login buddy as a Admin :)"})
+        return res.render("error", { err: "Please Login buddy as a Admin :)" })
     }
 
     const admin = jwt.verify(token, process.env.JWT_SECRET);
@@ -30,7 +30,7 @@ function IsAdminLogin(req, res, next) {
     if (admin.isAdmin) {
         next();
     } else {
-        return res.render("error" ,{err:"your account does not have 'ADMIN' access!"})
+        return res.render("error", { err: "your account does not have 'ADMIN' access!" })
     }
 
 }
@@ -138,7 +138,7 @@ app.post("/login", async function (req, res) {
 
         let alreadyUser = await userModel.findOne({ email })
 
-        if (!alreadyUser) return res.status(400).render("error" ,{err : "User not Found Go and signup now -- /signup"})
+        if (!alreadyUser) return res.status(400).render("error", { err: "User not Found Go and signup now -- /signup" })
 
 
 
@@ -165,7 +165,7 @@ app.post("/login", async function (req, res) {
 
             else {
 
-                res.render("error" ,{err :"Invalid Credentials"})
+                res.render("error", { err: "Invalid Credentials" })
 
             }
 
@@ -212,12 +212,12 @@ app.get("/edit/:id", async (req, res) => {
 
     let updateId = req.params.id
 
-    let updateUser = await userModel.findOne({
-        _id: updateId
-    });
-
-    res.render("edit", { updateUser })
-
+    try {
+        const updateUser = await userModel.findById(updateId)
+        res.render("edit", { updateUser })
+    } catch (err) {
+        res.send(err.message)
+    }
 })
 
 
